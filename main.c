@@ -1,6 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "stack.h"
+#include <unistd.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <string.h>
 #include "ls2.h"
 
 /**
@@ -9,16 +13,58 @@
  */
 int main(int argc, char* argv[]) {
 	// stack stores the lines to print out
-	stack_t *s = initstack();
+	//printf("%d number of args", argc);
 
-	push(s, "Hello1");
-	push(s, "Hello2");
-	push(s, "Hello3");
+	//char* recurseDir = malloc(4096 * sizeof(char));
+	
+	if(argc == 2|| argc == 3){
+		
 
-	// print stack
-	printstack(s);
+		if(argc == 2){
+			//printf("%s",argv[1]);
 
-	// free up stack
-	freestack(s);
+			// if(strcmp(argv[1],".") == 0){
+			char cwd[256];
+			getcwd(cwd,sizeof(cwd));
+			//printf("CWD: %s\n",cwd);
+			char recurseDir[4096];
+			strcpy(recurseDir,cwd);
+			if(strcmp(argv[1],".") != 0){
+				strcat(recurseDir,"/");
+				strcat(recurseDir,argv[1]);
+				printf("%s\n",recurseDir);
+			}
+			//strcpy(recurseDir,cwd);
+			// 	//strcat(recurseDir,"/");
+			// }
+			//  else
+			// {
+			// 	strcpy(recurseDir,"/home/nprater");
+			// }
+			mode1(recurseDir);
+			//free(recurseDir);
+		}
+		else
+		{
+			printf("Mode 2\n");
+		}
+		// stack_t *s = initstack();
+
+		// push(s, "Hello1");
+		// push(s, "Hello2");
+		// push(s, "Hello3");
+
+		// // print stack
+		// printstack(s);
+
+		// // free up stack
+		// freestack(s);
+
+
+	}
+	else
+	{
+		printf("Usage: ./ls2 <path> [optional-file]\n");
+	}
 	return 0;
 }
