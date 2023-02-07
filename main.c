@@ -1,3 +1,10 @@
+/*
+	Name: Nicholas Prater
+	Course: CS 481 OS
+	Professor: Dr. Chiu
+	Date: 2/6/23
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "stack.h"
@@ -12,12 +19,8 @@
  * Usage: ls2 <path> [exact-match-pattern]
  */
 int main(int argc, char* argv[]) {
-	// stack stores the lines to print out
-	//printf("%d number of args", argc);
-
-	//char* recurseDir = malloc(4096 * sizeof(char));
 	
-	if(argc == 2|| argc == 3){
+	if(argc == 2 || argc == 3){
 		
 
 		if(argc == 2){
@@ -32,17 +35,9 @@ int main(int argc, char* argv[]) {
 			if(strcmp(argv[1],".") != 0){
 				strcat(recurseDir,"/");
 				strcat(recurseDir,argv[1]);
-				printf("%s\n",recurseDir);
+				//printf("%s\n",recurseDir);
 			}
-			//strcpy(recurseDir,cwd);
-			// 	//strcat(recurseDir,"/");
-			// }
-			//  else
-			// {
-			// 	strcpy(recurseDir,"/home/nprater");
-			// }
 			mode1(recurseDir);
-			//free(recurseDir);
 		}
 		else
 		{

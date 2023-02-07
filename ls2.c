@@ -6,14 +6,24 @@
 #include <unistd.h>
 #include "ls2.h"
 #include "stack.h"
+/*
+	Name: Nicholas Prater
+	Course: CS 481 OS
+	Professor: Dr. Chiu
+	Date: 2/6/23
+*/
 
-
-// TODO: function definitions here for ls2
+/**
+ * Prints all the files and directories in the given path
+ *
+ * @param	*A	Pointer to the path
+ */
 
 void mode1(char* path){
     DIR* dir;
 	struct dirent* dirent;
 	struct stat fileInfo;
+	char* temp = malloc(4096);	
 
 	//printf("Recurse with directiory: %s\n", path);
 	// if(strcmp(path,"." != 0))
@@ -27,25 +37,35 @@ void mode1(char* path){
 
 	if(dir != NULL)
 	{
+		//Get the name of the next file/directory
 		dirent = readdir(dir);
 		while(dirent != NULL){
-		    lstat(path, &fileInfo);
+
 		    if(strcmp(dirent->d_name,".") != 0 && strcmp(dirent->d_name,"..") != 0)
 		    {
-				//printf("%s ...\n", dirent->d_name);
+				strcpy(temp,path);
+				strcat(temp,"/");
+				strcat(temp,dirent->d_name);
+				//printf("Temp = %s ...\n", temp);
+
+				//Get file information
+				lstat(temp, &fileInfo);
+				//Directories
 				if(S_ISDIR(fileInfo.st_mode))
 			    {
 					printf("%s/ (directory)\n%s", dirent->d_name,INDENT);
 					
+					//temp = path;
 					//printf("Before: %s\n", abPath);
-					strcat(path,"/");
-					strcat(path,dirent->d_name);
+					
 					//printf("chdir: %s\n", path);
-					chdir(dirent->d_name);
-                    mode1(path);
-
+					//chdir(dirent->d_name);
+                    mode1(temp);
+					//chdir("..");
+					
 			    }
-				else if(S_ISREG(fileInfo.st_mode))
+				//Regular files
+				else //if(S_ISREG(fileInfo.st_mode))
 			    {
 				    printf("%s (%ld bytes)\n", dirent->d_name, fileInfo.st_size);
 			    }
@@ -55,5 +75,6 @@ void mode1(char* path){
 	    }
 				
 	}
+	//free(temp);
     closedir(dir);
 }
