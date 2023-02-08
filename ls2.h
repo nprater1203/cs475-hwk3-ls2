@@ -16,6 +16,9 @@
 
 // TODO: Function declarations here for ls2
 
-void mode1(char*);
+void mode1(char*,int*);
+
+void mode2(char*,int*,char*,stack_t *);
+
 
 #endif

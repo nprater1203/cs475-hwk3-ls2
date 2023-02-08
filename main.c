@@ -19,31 +19,42 @@
  * Usage: ls2 <path> [exact-match-pattern]
  */
 int main(int argc, char* argv[]) {
-	
-	if(argc == 2 || argc == 3){
+
+	int indentCount = 0;
+
+	if(argc == 2){
+		char cwd[256];
+		getcwd(cwd,sizeof(cwd));
+		//printf("CWD: %s\n",cwd);
+		char recurseDir[4096];
+		strcpy(recurseDir,cwd);
+		if(strcmp(argv[1],".") != 0){
+			strcat(recurseDir,"/");
+			strcat(recurseDir,argv[1]);
+			//printf("%s\n",recurseDir);
+		}
+		mode1(recurseDir,&indentCount);
+	}
+	else if(argc == 3)
+	{
+
+		stack_t* stack = initstack();
+		char cwd[256];
+		getcwd(cwd,sizeof(cwd));
+		//printf("CWD: %s\n",cwd);
+		char recurseDir[4096];
+		strcpy(recurseDir,cwd);
+		if(strcmp(argv[1],".") != 0){
+			strcat(recurseDir,"/");
+			strcat(recurseDir,argv[1]);
+			//printf("%s\n",recurseDir);
+		}
+
+		mode2(recurseDir,&indentCount,argv[2],stack);
+		printstack(stack);
+		freestack(stack);
+	}
 		
-
-		if(argc == 2){
-			//printf("%s",argv[1]);
-
-			// if(strcmp(argv[1],".") == 0){
-			char cwd[256];
-			getcwd(cwd,sizeof(cwd));
-			//printf("CWD: %s\n",cwd);
-			char recurseDir[4096];
-			strcpy(recurseDir,cwd);
-			if(strcmp(argv[1],".") != 0){
-				strcat(recurseDir,"/");
-				strcat(recurseDir,argv[1]);
-				//printf("%s\n",recurseDir);
-			}
-			mode1(recurseDir);
-		}
-		else
-		{
-			printf("Mode 2\n");
-		}
-		// stack_t *s = initstack();
 
 		// push(s, "Hello1");
 		// push(s, "Hello2");
@@ -56,7 +67,7 @@ int main(int argc, char* argv[]) {
 		// freestack(s);
 
 
-	}
+	
 	else
 	{
 		printf("Usage: ./ls2 <path> [optional-file]\n");
